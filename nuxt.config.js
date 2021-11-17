@@ -4,10 +4,10 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - twitter_app_client',
-    title: 'twitter_app_client',
+    title: '',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=detwitter_app_clientvice-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
@@ -18,10 +18,13 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    { src: 'simplebar/dist/simplebar.min.css', lang: 'css' }
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/capitalize.js',
+    '~/plugins/date-format.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -32,8 +35,23 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
+    '@nuxtjs/vuetify'
   ],
+
+  // loading bar
+  loading: {
+    color: '#fff',
+    throttle: 0
+  },
+
+  // global router config
+  router: {
+    // Run the middleware/user-agent.js on every page
+  },
+
+  env: {
+    BASE_URL: process.env.BASE_URL || 'http://localhost:5000/api'
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -41,10 +59,23 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/auth-next',
+    '@nuxtjs/dayjs'
   ],
 
+  dayjs: {
+    locales: ['en'],
+    defaultLocale: 'en',
+    plugins: ['relativeTime', 'advancedFormat']
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: process.env.BASE_URL || 'http://localhost:5000/api'
+  },
+
+  // Auth modul configuration: https://auth.nuxtjs.org/
+  auth: {},
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -74,5 +105,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ['lodash-es']
+    // Other build options
   }
 }

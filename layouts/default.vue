@@ -1,86 +1,81 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <!--    Abb bar for logged users-->
     <v-app-bar
-      :clipped-left="clipped"
+      v-if='$auth.loggedIn'
       fixed
+      clipped-left
+      flat
+      dark
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
+      <v-btn icon class='d-none d-sm-flex' @click='miniVariant = !miniVariant'>
+        <v-icon color='darkgrey'>mdi-{{ miniVariant ? 'chevron-right' : 'chevron-left' }}</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
+      <v-app-bar-nav-icon class='darkgrey--text mr-3' @click='drawer = !drawer' />
+      <v-btn icon to='/'>
+        <v-icon>mdi-twitter</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
     </v-app-bar>
+
+    <!--    App bar for anonymouse users -->
+    <v-app-bar v-else app dark clipped-left>
+      <v-btn icon class='d-none d-sm-flex' @click='miniVariant = !miniVariant'>
+        <v-icon color='darkgrey'>mdi-{{ miniVariant ? 'chevron-right' : 'chevron-left' }}</v-icon>
+      </v-btn>
+      <v-app-bar-nav-icon class='darkgrey--text mr-3' @click='drawer = !drawer' />
+      <v-btn icon to='/'>
+        <v-icon>mdi-twitter</v-icon>
+      </v-btn>
+      <v-spacer />
+      <!--      <v-avatar size='35'>-->
+      <!--        <img-->
+      <!--          src='https://cdn.vuetifyjs.com/images/john.jpg'-->
+      <!--          alt='profile'-->
+      <!--        >-->
+      <!--      </v-avatar>-->
+      <v-btn color='grey' text depressed dark link to='/auth/login'>Sign In</v-btn>
+      <v-btn color='grey' text depressed dark link to='/auth/signup'>Sign Up</v-btn>
+    </v-app-bar>
+
+    <!--    Navigation-->
+    <v-navigation-drawer
+      v-model='drawer'
+      :mini-variant='miniVariant'
+      fixed
+      clipped
+      mobile-breakpoint='600'
+      dark
+      app
+    >
+
+      <simplebar style='height: 100%'>
+        <v-list>
+          <v-list-item
+            v-for='(item, i) in items'
+            :key='i'
+            :to='item.to'
+            router
+            exact
+          >
+            <v-list-item-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text='item.title' />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </simplebar>
+    </v-navigation-drawer>
     <v-main>
-      <v-container>
+      <v-container fluid>
         <Nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+
     <v-footer
-      :absolute="!fixed"
       app
     >
       <span>&copy; {{ new Date().getFullYear() }}</span>
@@ -89,29 +84,34 @@
 </template>
 
 <script>
+import simplebar from 'simplebar-vue'
+
 export default {
-  data () {
+  components: { simplebar },
+  data() {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
+      title: 'Vuetify.js',
+      miniVariant: false,
+      drawer: null,
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'Home',
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+          icon: 'mdi-repeat-variant',
+          title: 'Tweets',
+          to: '/Trends'
+        },
+      ]
     }
   }
 }
 </script>
+
+<style scoped>
+.primary {
+  color: white;
+}
+</style>
