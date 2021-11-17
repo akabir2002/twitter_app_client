@@ -3,10 +3,10 @@
     <!--    Abb bar for logged users-->
     <v-app-bar
       v-if='$auth.loggedIn'
+      dark
       fixed
       clipped-left
-      flat
-      dark
+      elevation='1'
       app
     >
       <v-btn icon class='d-none d-sm-flex' @click='miniVariant = !miniVariant'>
@@ -20,7 +20,7 @@
     </v-app-bar>
 
     <!--    App bar for anonymouse users -->
-    <v-app-bar v-else app dark clipped-left>
+    <v-app-bar v-else app elevation='1' clipped-left dark>
       <v-btn icon class='d-none d-sm-flex' @click='miniVariant = !miniVariant'>
         <v-icon color='darkgrey'>mdi-{{ miniVariant ? 'chevron-right' : 'chevron-left' }}</v-icon>
       </v-btn>
@@ -29,12 +29,6 @@
         <v-icon>mdi-twitter</v-icon>
       </v-btn>
       <v-spacer />
-      <!--      <v-avatar size='35'>-->
-      <!--        <img-->
-      <!--          src='https://cdn.vuetifyjs.com/images/john.jpg'-->
-      <!--          alt='profile'-->
-      <!--        >-->
-      <!--      </v-avatar>-->
       <v-btn color='grey' text depressed dark link to='/auth/login'>Sign In</v-btn>
       <v-btn color='grey' text depressed dark link to='/auth/signup'>Sign Up</v-btn>
     </v-app-bar>
@@ -45,13 +39,13 @@
       :mini-variant='miniVariant'
       fixed
       clipped
-      mobile-breakpoint='600'
+      mobile-breakpoint='500'
       dark
       app
     >
 
       <simplebar style='height: 100%'>
-        <v-list>
+        <v-list dark nav>
           <v-list-item
             v-for='(item, i) in items'
             :key='i'
@@ -68,6 +62,7 @@
           </v-list-item>
         </v-list>
       </simplebar>
+
     </v-navigation-drawer>
     <v-main>
       <v-container fluid>
@@ -94,21 +89,9 @@ export default {
       miniVariant: false,
       drawer: null,
       items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Home',
-          to: '/'
-        },
-        {
-          icon: 'mdi-repeat-variant',
-          title: 'Tweets',
-          to: '/tweets'
-        },
-        {
-          icon: 'mdi-magnify',
-          title: 'Trends',
-          to: '/Trends'
-        },
+        { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/dashboard' },
+        { title: 'Users', icon: 'mdi-card-account-details', to: '/dashboard/users' },
+        { icon: 'mdi-cog', title: 'Settings', to: '/dashboard/settings' }
       ]
     }
   }
@@ -116,7 +99,4 @@ export default {
 </script>
 
 <style scoped>
-.primary {
-  color: white;
-}
 </style>
