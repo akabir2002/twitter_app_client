@@ -3,7 +3,7 @@
     <v-skeleton-loader type='card' />
   </div>
   <v-row v-else class='mt-2'>
-    <v-col cols='12' sm='11' md='4'>
+    <v-col cols='12' sm='12' md='4'>
       <MaterialStatsCard
         color='secondary'
         class='my-6'

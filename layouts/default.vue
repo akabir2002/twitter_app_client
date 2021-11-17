@@ -45,7 +45,7 @@
       :mini-variant='miniVariant'
       fixed
       clipped
-      mobile-breakpoint='600'
+      mobile-breakpoint='800'
       dark
       app
     >
